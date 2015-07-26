@@ -1,0 +1,31 @@
+Step GLM
+
+sold ~ X100 + box + clean + crack + devic + hous + includ + like + 
+    may + mint + perfect + scratch + sign + still + tab + tear + 
+    test + wear + wifi + biddable + startprice + cellular + storage
+
+            Df Deviance     AIC
+<none>           1712.78 1768.78
+- scratch     1  1714.78 1768.78
+- tear        1  1715.18 1769.18
+- devic       1  1715.22 1769.22
+- tab         1  1715.24 1769.24
+- like        1  1715.33 1769.33
+- crack       1  1715.48 1769.48
+- perfect     1  1715.82 1769.82
+- storage     4  1721.87 1769.87
+- includ      1  1715.97 1769.97
+- clean       1  1716.11 1770.11
+- sign        1  1717.40 1771.40
+- test        1  1717.69 1771.69
+- cellular    2  1720.83 1772.83
+- may         1  1718.91 1772.91
+- box         1  1719.47 1773.47
+- still       1  1719.80 1773.80
+- wifi        1  1719.87 1773.87
+- mint        1  1720.12 1774.12
+- wear        1  1720.47 1774.47
+- X100        1  1724.11 1778.11
+- hous        1  1732.94 1786.94
+- startprice  1  1871.84 1925.84
+- biddable    1  1932.54 1986.54
