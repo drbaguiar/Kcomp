@@ -135,9 +135,42 @@ Log6 = glm(f4, data=dfTrain6, family=binomial)
 Log7 = glm(f4, data=dfTrain7, family=binomial)
 Log8 = glm(f4, data=dfTrain8, family=binomial)
 
+#
+library(MASS)
+stepAIC(Log,direction="both")
+
+Log = glm(sold ~ X100 + amp + box + charger + clean + come + 
+      condition + devic + hous + may + mint + perfect + pleas + 
+      read + scratch + sign + still + tab + tear + test + wear + 
+      wifi + biddable + startprice + cellular + storage + productline, 
+    family = binomial, data = DescriptionWordsTrain)
+
+Log1 = glm(sold ~ X100 + amp + box + charger + clean + come + 
+            condition + devic + hous + may + mint + perfect + pleas + 
+            read + scratch + sign + still + tab + tear + test + wear + 
+            wifi + startprice + cellular + storage + productline, 
+          family = binomial, data = dfTrain1)
+
+Log2 = glm(sold ~ X100 + amp + box + charger + clean + come + 
+             condition + devic + hous + may + mint + perfect + pleas + 
+             read + scratch + sign + still + tab + tear + test + wear + 
+             wifi + startprice + cellular + storage + productline, 
+           family = binomial, data = dfTrain2)
+
+Log3 = glm(sold ~ X100 + amp + box + charger + clean + come + 
+             condition + devic + hous + may + mint + perfect + pleas + 
+             read + scratch + sign + still + tab + tear + test + wear + 
+             wifi + startprice + storage + productline, 
+           family = binomial, data = dfTrain1)
+
+Log4 = glm(sold ~ X100 + amp + box + charger + clean + come + 
+             condition + devic + hous + may + mint + perfect + pleas + 
+             read + scratch + sign + still + tab + tear + test + wear + 
+             wifi + startprice + storage + productline, 
+           family = binomial, data = dfTrain2)
 # Predict on Training
 thres = .5
-predictTrain <- predict(Log, type="response")
+predictTrain <- predict(log, type="response")
 cm <- table(DescriptionWordsTrain$sold,predictTrain>thres)
 addmargins(cm)
 getstats(cm)
@@ -194,8 +227,8 @@ getstats(cm8)
 PredTest = predict(Log, newdata=DescriptionWordsTest, type="response")
 PredTest1 = predict(Log1, newdata=dfTest1, type="response")
 PredTest2 = predict(Log2, newdata=dfTest2, type="response")
-PredTest3 = predict(Log3, newdata=dfTest3, type="response")
-PredTest4 = predict(Log4, newdata=dfTest4, type="response")
+PredTest3 = predict(Log3, newdata=dfTest1, type="response")
+PredTest4 = predict(Log4, newdata=dfTest2, type="response")
 PredTest5 = predict(Log5, newdata=dfTest5, type="response")
 PredTest6 = predict(Log6, newdata=dfTest6, type="response")
 PredTest7 = predict(Log7, newdata=dfTest7, type="response")
@@ -211,10 +244,10 @@ write.csv(MySubmission1, "SubmissionDescriptionLogLetter1.csv", row.names=FALSE)
 MySubmission2 = data.frame(UniqueID = dfTest2$UniqueID, Probability1 = PredTest2)
 write.csv(MySubmission2, "SubmissionDescriptionLogLetter2.csv", row.names=FALSE)
 
-MySubmission3 = data.frame(UniqueID = dfTest3$UniqueID, Probability1 = PredTest3)
+MySubmission3 = data.frame(UniqueID = dfTest1$UniqueID, Probability1 = PredTest3)
 write.csv(MySubmission3, "SubmissionDescriptionLogLetter3.csv", row.names=FALSE)
 
-MySubmission4 = data.frame(UniqueID = dfTest4$UniqueID, Probability1 = PredTest4)
+MySubmission4 = data.frame(UniqueID = dfTest2$UniqueID, Probability1 = PredTest4)
 write.csv(MySubmission4, "SubmissionDescriptionLogLetter4.csv", row.names=FALSE)
 
 MySubmission5 = data.frame(UniqueID = dfTest5$UniqueID, Probability1 = PredTest5)
@@ -229,6 +262,7 @@ write.csv(MySubmission7, "SubmissionDescriptionLogLetter7.csv", row.names=FALSE)
 MySubmission8 = data.frame(UniqueID = dfTest8$UniqueID, Probability1 = PredTest8)
 write.csv(MySubmission8, "SubmissionDescriptionLogLetter8.csv", row.names=FALSE)
 
+write.csv(DescriptionWordsTest,"WordsTest.csv", row.names=FALSE)
 
 # Stepwise
 Step = step(glm(f1, data=DescriptionWordsTrain, family=binomial))
@@ -261,11 +295,15 @@ library(rpart)
 library(rpart.plot)
 
 #treeFit <-rpart(isB ~ . - letter, data=dfTrain, method="class")
-treeFit <-rpart(f4, data=dfTrain8, method="class")
+treeFit1<-rpart(sold ~ X100 + amp + box + charger + clean + come + 
+                  condition + devic + hous + may + mint + perfect + pleas + 
+                  read + scratch + sign + still + tab + tear + test + wear + 
+                  wifi + startprice + storage + productline, 
+                  data=DescriptionWordsTrain, method="class")
 
 thres<-.5
-predictTrain = predict(treeFit, type = "prob")
-cm <-table(dfTrain8$sold, predictTrain[,2]>thres)
+predictTrain = predict(treeFit1, type = "prob")
+cm <-table(DescriptionWordsTrain$sold, predictTrain[,2]>thres)
 addmargins(cm)
 getstats(cm)
 
